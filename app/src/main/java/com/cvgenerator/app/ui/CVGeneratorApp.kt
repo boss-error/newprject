@@ -11,11 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.cvgenerator.app.ui.screens.DataInputScreen
-import com.cvgenerator.app.ui.screens.PDFPreviewScreen
-import com.cvgenerator.app.ui.screens.ProcessingScreen
-import com.cvgenerator.app.ui.screens.TemplateSelectionScreen
-import com.cvgenerator.app.ui.screens.WelcomeScreen
+import com.cvgenerator.app.ui.screens.*
 import com.cvgenerator.app.viewmodel.CVGeneratorViewModel
 import com.cvgenerator.app.viewmodel.CVGenerationStep
 
@@ -29,11 +25,31 @@ fun CVGeneratorApp() {
     Scaffold { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = "welcome",
+            startDestination = "splash",
             modifier = Modifier.padding(paddingValues)
         ) {
+            composable("splash") {
+                SplashScreen(
+                    onSplashComplete = {
+                        navController.navigate("onboarding") {
+                            popUpTo("splash") { inclusive = true }
+                        }
+                    }
+                )
+            }
+            
+            composable("onboarding") {
+                OnboardingScreen(
+                    onComplete = {
+                        navController.navigate("welcome") {
+                            popUpTo("onboarding") { inclusive = true }
+                        }
+                    }
+                )
+            }
+            
             composable("welcome") {
-                WelcomeScreen(
+                EnhancedWelcomeScreen(
                     onGetStarted = {
                         navController.navigate("data_input")
                     }
@@ -86,6 +102,14 @@ fun CVGeneratorApp() {
                         navController.navigate("welcome") {
                             popUpTo(0) { inclusive = true }
                         }
+                    }
+                )
+            }
+            
+            composable("settings") {
+                SettingsScreen(
+                    onBack = {
+                        navController.popBackStack()
                     }
                 )
             }

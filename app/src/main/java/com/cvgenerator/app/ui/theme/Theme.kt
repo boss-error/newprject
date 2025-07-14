@@ -5,19 +5,42 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-// Modern gradient colors
+// Modern gradient colors - Enhanced palette
 val PrimaryBlue = Color(0xFF6366F1) // Indigo-500
 val PrimaryBlueDark = Color(0xFF4F46E5) // Indigo-600
+val PrimaryBlueLight = Color(0xFF818CF8) // Indigo-400
 val SecondaryPurple = Color(0xFF8B5CF6) // Violet-500
+val SecondaryPurpleDark = Color(0xFF7C3AED) // Violet-600
 val AccentTeal = Color(0xFF06B6D4) // Cyan-500
+val AccentTealLight = Color(0xFF22D3EE) // Cyan-400
 val AccentGreen = Color(0xFF10B981) // Emerald-500
+val AccentOrange = Color(0xFFF59E0B) // Amber-500
+val AccentPink = Color(0xFFEC4899) // Pink-500
 val NeutralGray = Color(0xFF6B7280) // Gray-500
 val LightGray = Color(0xFFF9FAFB) // Gray-50
 val DarkGray = Color(0xFF111827) // Gray-900
 val SurfaceLight = Color(0xFFFFFFFF)
 val SurfaceDark = Color(0xFF1F2937) // Gray-800
+
+// Gradient definitions
+val PrimaryGradient = Brush.linearGradient(
+    colors = listOf(PrimaryBlue, SecondaryPurple)
+)
+
+val AccentGradient = Brush.linearGradient(
+    colors = listOf(AccentTeal, AccentGreen)
+)
+
+val SunsetGradient = Brush.linearGradient(
+    colors = listOf(AccentOrange, AccentPink)
+)
+
+val OceanGradient = Brush.linearGradient(
+    colors = listOf(PrimaryBlueLight, AccentTealLight)
+)
 
 private val DarkColorScheme = darkColorScheme(
     primary = PrimaryBlue,

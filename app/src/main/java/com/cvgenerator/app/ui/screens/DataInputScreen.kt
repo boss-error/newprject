@@ -267,7 +267,7 @@ private fun ModernManualInputForm(
                         personalInfo = cvData.personalInfo.copy(fullName = it)
                     ))
                 },
-                label = stringResource(R.string.name_hint),
+                label = "Full Name",
                 modifier = Modifier.padding(bottom = 12.dp)
             )
             
@@ -278,7 +278,7 @@ private fun ModernManualInputForm(
                         personalInfo = cvData.personalInfo.copy(email = it)
                     ))
                 },
-                label = stringResource(R.string.email_hint),
+                label = "Email",
                 modifier = Modifier.padding(bottom = 12.dp)
             )
             
@@ -289,7 +289,7 @@ private fun ModernManualInputForm(
                         personalInfo = cvData.personalInfo.copy(phone = it)
                     ))
                 },
-                label = stringResource(R.string.phone_hint)
+                label = "Phone"
             )
         }
         
@@ -308,7 +308,7 @@ private fun ModernManualInputForm(
                 onValueChange = { 
                     onDataChange(cvData.copy(targetJobTitle = it))
                 },
-                label = stringResource(R.string.target_job_hint)
+                label = "Target Job Title"
             )
         }
         
@@ -327,7 +327,7 @@ private fun ModernManualInputForm(
                 onValueChange = { 
                     onDataChange(cvData.copy(summary = it))
                 },
-                label = stringResource(R.string.summary_hint),
+                label = "Professional Summary",
                 minLines = 3,
                 maxLines = 5
             )
@@ -362,7 +362,7 @@ ${it.description}"
                         )
                     ))
                 },
-                label = stringResource(R.string.experience_hint),
+                label = "Work Experience",
                 minLines = 4,
                 maxLines = 8
             )
@@ -387,7 +387,7 @@ ${it.description}"
                         )
                     ))
                 },
-                label = stringResource(R.string.skills_hint),
+                label = "Technical Skills",
                 minLines = 2
             )
         }
@@ -410,7 +410,7 @@ ${it.description}"
             )
         ) {
             Text(
-                text = stringResource(R.string.next),
+                text = "Next",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )

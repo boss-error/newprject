@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Modern typography with better spacing and hierarchy
+// Enhanced Typography System
 val Typography = Typography(
     // Display styles for hero sections
     displayLarge = TextStyle(
@@ -31,7 +31,7 @@ val Typography = Typography(
         letterSpacing = 0.sp
     ),
     
-    // Headline styles for section headers
+    // Headline styles for section titles
     headlineLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
