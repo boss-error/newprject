@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">CV Generator</string>
+    <string name="welcome_title">Welcome to CV Generator</string>
+    <string name="welcome_subtitle">Create professional CVs with AI assistance</string>
+    <string name="get_started">Get Started</string>
+    
+    <!-- Input Screen -->
+    <string name="input_title">Enter Your CV Information</string>
+    <string name="manual_input">Manual Input</string>
+    <string name="upload_file">Upload File</string>
+    <string name="name_hint">Full Name</string>
+    <string name="email_hint">Email Address</string>
+    <string name="phone_hint">Phone Number</string>
+    <string name="summary_hint">Professional Summary</string>
+    <string name="experience_hint">Work Experience</string>
+    <string name="education_hint">Education</string>
+    <string name="skills_hint">Skills</string>
+    <string name="projects_hint">Projects</string>
+    <string name="target_job_hint">Target Job Title</string>
+    
+    <!-- Template Selection -->
+    <string name="template_title">Choose a Template</string>
+    <string name="modern_template">Modern</string>
+    <string name="minimalist_template">Minimalist</string>
+    <string name="elegant_template">Elegant</string>
+    
+    <!-- AI Enhancement -->
+    <string name="enhancing_cv">Enhancing your CV with AI...</string>
+    <string name="generating_latex">Generating LaTeX code...</string>
+    <string name="compiling_pdf">Compiling PDF...</string>
+    
+    <!-- Preview Screen -->
+    <string name="preview_title">CV Preview</string>
+    <string name="download">Download</string>
+    <string name="share">Share</string>
+    <string name="regenerate">Regenerate</string>
+    
+    <!-- Error Messages -->
+    <string name="error_file_read">Error reading file</string>
+    <string name="error_ai_service">AI service error</string>
+    <string name="error_pdf_generation">PDF generation failed</string>
+    <string name="error_network">Network error</string>
+    
+    <!-- Permissions -->
+    <string name="permission_storage">Storage permission is required to upload files</string>
+    <string name="permission_denied">Permission denied</string>
+    
+    <!-- File Types -->
+    <string name="supported_formats">Supported formats: PDF, DOCX, TXT</string>
+    
+    <!-- Navigation -->
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+</resources>

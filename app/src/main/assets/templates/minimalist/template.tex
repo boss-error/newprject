@@ -1,0 +1,87 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% Define colors
+\definecolor{darkgray}{HTML}{333333}
+\definecolor{mediumgray}{HTML}{666666}
+\definecolor{lightgray}{HTML}{999999}
+
+% Remove page numbering
+\pagenumbering{gobble}
+
+% Section formatting
+\titleformat{\section}
+{\color{darkgray}\normalfont\Large\bfseries}
+{}{0em}{}[\titlerule]
+
+\titlespacing*{\section}{0pt}{20pt}{10pt}
+
+% Custom commands
+\newcommand{\name}[1]{
+  \begin{center}
+    {\Huge\bfseries\color{darkgray} #1}
+  \end{center}
+  \vspace{10pt}
+}
+
+\newcommand{\contact}[3]{
+  \begin{center}
+    \color{mediumgray}
+    #1 \textbullet\ #2 \textbullet\ #3
+  \end{center}
+  \vspace{20pt}
+}
+
+\newcommand{\experience}[4]{
+  \textbf{#1} \hfill \textit{#2} \\
+  \textit{#3} \hfill #4 \\
+  \vspace{5pt}
+}
+
+\newcommand{\education}[4]{
+  \textbf{#1} \hfill \textit{#2} \\
+  \textit{#3} \hfill #4 \\
+  \vspace{5pt}
+}
+
+\newcommand{\project}[3]{
+  \textbf{#1} \hfill \textit{#2} \\
+  #3 \\
+  \vspace{5pt}
+}
+
+\begin{document}
+
+% Header
+\name{{{FULL_NAME}}}
+\contact{{{EMAIL}}}{{{PHONE}}}{{{LOCATION}}}
+
+% Professional Summary
+\section{Summary}
+{{SUMMARY}}
+
+% Experience
+\section{Experience}
+{{EXPERIENCE}}
+
+% Education
+\section{Education}
+{{EDUCATION}}
+
+% Skills
+\section{Skills}
+\textbf{Technical Skills:} {{TECHNICAL_SKILLS}} \\
+\textbf{Languages:} {{LANGUAGES}} \\
+\textbf{Tools:} {{TOOLS}}
+
+% Projects
+\section{Projects}
+{{PROJECTS}}
+
+\end{document}
