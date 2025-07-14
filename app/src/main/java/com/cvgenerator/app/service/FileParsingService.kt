@@ -13,6 +13,7 @@ import org.apache.pdfbox.text.PDFTextStripper
 import java.io.InputStream
 
 class FileParsingService(private val context: Context) {
+    // Uses Apache POI for DOCX parsing and PDFBox for PDF parsing
     
     init {
         PDFBoxResourceLoader.init(context)
