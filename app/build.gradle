@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk 23
-    buildToolsVersion "29.0.3"
+    namespace 'com.cvgenerator.app'
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.cvgenerator.app"
-        minSdkVersion 23
-        targetSdkVersion 23
+        minSdkVersion 26
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -37,7 +37,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.5.3'
     }
     packagingOptions {
         resources {
@@ -47,41 +47,41 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation 'androidx.compose.ui:ui:1.1.1'
-    implementation 'androidx.compose.ui:ui-graphics:1.1.1'
-    implementation 'androidx.compose.ui:ui-tooling-preview:1.1.1'
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha10'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation 'androidx.compose.ui:ui:1.5.3'
+    implementation 'androidx.compose.ui:ui-graphics:1.5.3'
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.5.3'
+    implementation 'androidx.compose.material3:material3:1.1.2'
     
     // Navigation
-    implementation 'androidx.navigation:navigation-compose:2.4.2'
+    implementation 'androidx.navigation:navigation-compose:2.7.5'
     
     // ViewModel
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
     
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
     
-    // File parsing
-    implementation 'org.apache.poi:poi:4.1.2'
-    implementation 'org.apache.poi:poi-ooxml:4.1.2'
-    implementation 'org.apache.pdfbox:pdfbox-android:1.8.17.0'
+    // File parsing - temporarily removed heavy dependencies
+    // implementation 'org.apache.poi:poi:5.2.4'
+    // implementation 'org.apache.poi:poi-ooxml:5.2.4'
+    // Removed problematic pdfbox-android dependency
     
-    // PDF viewing
-    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    // PDF viewing - temporarily removed problematic dependency
+    // implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     
     // Permissions
-    implementation 'com.google.accompanist:accompanist-permissions:0.23.1'
+    implementation 'com.google.accompanist:accompanist-permissions:0.32.0'
     
     // File picker
-    implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.activity:activity-ktx:1.8.2'
     
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     
     // Testing
     testImplementation 'junit:junit:4.13.2'

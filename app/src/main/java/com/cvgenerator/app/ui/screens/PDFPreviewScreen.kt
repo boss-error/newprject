@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
@@ -144,7 +144,7 @@ fun PDFPreviewScreen(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Icon(
-                    Icons.Default.Download,
+                Icons.Default.FileDownload,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp)
                 )

@@ -1,0 +1,53 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+% moderncv themes
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+
+% character encoding
+\usepackage[utf8]{inputenc}
+
+% adjust the page margins
+\usepackage[scale=0.75]{geometry}
+
+% personal data
+\name{{{FIRST_NAME}}}{{{LAST_NAME}}}
+\title{{{JOB_TITLE}}}
+\address{{{ADDRESS}}}{{{CITY}}}{{{COUNTRY}}}
+\phone[mobile]{{{PHONE}}}
+\email{{{EMAIL}}}
+\homepage{{{WEBSITE}}}
+\social[linkedin]{{{LINKEDIN}}}
+\social[github]{{{GITHUB}}}
+
+% Add full name placeholder for compatibility
+\newcommand{\fullname}{{{FULL_NAME}}}
+
+\begin{document}
+
+\makecvtitle
+
+\section{Professional Summary}
+{{SUMMARY}}
+
+\section{Experience}
+{{EXPERIENCE}}
+
+\section{Education}
+{{EDUCATION}}
+
+\section{Skills}
+\cvdoubleitem{Programming Languages}{{{PROGRAMMING_LANGUAGES}}}{Frameworks}{{{FRAMEWORKS}}}
+\cvdoubleitem{Tools \& Technologies}{{{TOOLS}}}{Databases}{{{DATABASES}}}
+\cvdoubleitem{Languages}{{{SPOKEN_LANGUAGES}}}{Certifications}{{{CERTIFICATIONS}}}
+
+\section{Projects}
+{{PROJECTS}}
+
+\section{Awards \& Achievements}
+{{ACHIEVEMENTS}}
+
+\section{References}
+Available upon request
+
+\end{document}

@@ -6,18 +6,11 @@ import com.cvgenerator.app.data.CVData
 import com.cvgenerator.app.data.PersonalInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.apache.poi.xwpf.usermodel.XWPFDocument
-import org.apache.pdfbox.android.PDFBoxResourceLoader
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.text.PDFTextStripper
+// Removed POI and PDFBox imports - temporarily disabled
 import java.io.InputStream
 
 class FileParsingService(private val context: Context) {
-    // Uses Apache POI for DOCX parsing and PDFBox for PDF parsing
-    
-    init {
-        PDFBoxResourceLoader.init(context)
-    }
+    // Simplified file parsing service - PDF and DOCX parsing temporarily disabled
     
     suspend fun parseFile(uri: Uri): Result<CVData> = withContext(Dispatchers.IO) {
         try {
@@ -26,11 +19,8 @@ class FileParsingService(private val context: Context) {
             
             val mimeType = context.contentResolver.getType(uri)
             val extractedText = when {
-                mimeType?.contains("pdf") == true -> parsePDF(inputStream)
-                mimeType?.contains("docx") == true || 
-                mimeType?.contains("document") == true -> parseDOCX(inputStream)
                 mimeType?.contains("text") == true -> parseText(inputStream)
-                else -> throw Exception("Unsupported file format")
+                else -> throw Exception("Unsupported file format - only text files supported currently")
             }
             
             val cvData = extractCVDataFromText(extractedText)
@@ -40,26 +30,7 @@ class FileParsingService(private val context: Context) {
         }
     }
     
-    private fun parsePDF(inputStream: InputStream): String {
-        val document = PDDocument.load(inputStream)
-        val stripper = PDFTextStripper()
-        val text = stripper.getText(document)
-        document.close()
-        return text
-    }
-    
-    private fun parseDOCX(inputStream: InputStream): String {
-        val document = XWPFDocument(inputStream)
-        val text = StringBuilder()
-        
-        document.paragraphs.forEach { paragraph ->
-            text.append(paragraph.text).append("\n")
-        }
-        
-        document.close()
-        return text.toString()
-    }
-    
+
     private fun parseText(inputStream: InputStream): String {
         return inputStream.bufferedReader().use { it.readText() }
     }
@@ -86,8 +57,8 @@ class FileParsingService(private val context: Context) {
     }
     
     private fun extractPersonalInfo(text: String): PersonalInfo {
-        val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
-        val phoneRegex = Regex("(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}")
+        val emailRegex = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}".toRegex()
+        val phoneRegex = "\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}".toRegex()
         
         val email = emailRegex.find(text)?.value ?: ""
         val phone = phoneRegex.find(text)?.value ?: ""
@@ -148,7 +119,7 @@ class FileParsingService(private val context: Context) {
         
         // Basic parsing - split by common patterns
         val experiences = mutableListOf<com.cvgenerator.app.data.Experience>()
-        val sections = experienceText.split(Regex("\n\s*\n|\d{4}\s*-\s*\d{4}|\d{4}\s*-\s*Present"))
+        val sections = experienceText.split("\n\n".toRegex())
         
         sections.forEach { section ->
             if (section.trim().isNotEmpty()) {
@@ -173,7 +144,7 @@ class FileParsingService(private val context: Context) {
         if (educationText.isEmpty()) return emptyList()
         
         val educations = mutableListOf<com.cvgenerator.app.data.Education>()
-        val sections = educationText.split(Regex("\n\s*\n|\d{4}\s*-\s*\d{4}"))
+        val sections = educationText.split("\n\n".toRegex())
         
         sections.forEach { section ->
             if (section.trim().isNotEmpty()) {
@@ -198,7 +169,7 @@ class FileParsingService(private val context: Context) {
         if (skillsText.isEmpty()) return com.cvgenerator.app.data.Skills()
         
         // Basic skill extraction - can be enhanced
-        val skills = skillsText.split(Regex("[,;\n]"))
+        val skills = skillsText.split("[,;\n]".toRegex())
             .map { it.trim() }
             .filter { it.isNotEmpty() }
         
@@ -212,7 +183,7 @@ class FileParsingService(private val context: Context) {
         if (projectsText.isEmpty()) return emptyList()
         
         val projects = mutableListOf<com.cvgenerator.app.data.Project>()
-        val sections = projectsText.split(Regex("\n\s*\n"))
+        val sections = projectsText.split("\n\n".toRegex())
         
         sections.forEach { section ->
             if (section.trim().isNotEmpty()) {
