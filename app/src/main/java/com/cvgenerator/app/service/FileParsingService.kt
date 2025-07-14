@@ -57,8 +57,8 @@ class FileParsingService(private val context: Context) {
     }
     
     private fun extractPersonalInfo(text: String): PersonalInfo {
-        val emailRegex = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}".toRegex()
-        val phoneRegex = "\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}".toRegex()
+        val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,}")
+        val phoneRegex = Regex("[+]?[0-9]{1,3}[-. ]?[(]?[0-9]{3}[)]?[-. ]?[0-9]{3}[-. ]?[0-9]{4}")
         
         val email = emailRegex.find(text)?.value ?: ""
         val phone = phoneRegex.find(text)?.value ?: ""
