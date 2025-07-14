@@ -344,14 +344,8 @@ private fun ModernManualInputForm(
             )
         ) {
             ModernTextField(
-                value = cvData.experience.joinToString("
-
-") { 
-                    "${it.jobTitle} at ${it.company}
-${it.description}"
-                },
+                value = cvData.experience.firstOrNull()?.description ?: "",
                 onValueChange = { 
-                    // Simple parsing - in a real app, you'd want more sophisticated handling
                     onDataChange(cvData.copy(
                         experience = listOf(
                             com.cvgenerator.app.data.Experience(
