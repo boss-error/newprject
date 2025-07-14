@@ -6,11 +6,15 @@ import com.cvgenerator.app.data.CVData
 import com.cvgenerator.app.data.PersonalInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-// Removed POI and PDFBox imports - temporarily disabled
+import org.apache.poi.xwpf.usermodel.XWPFDocument
+import org.apache.poi.hwpf.HWPFDocument
+import org.apache.poi.hwpf.extractor.WordExtractor
+import com.itextpdf.kernel.pdf.PdfDocument
+import com.itextpdf.kernel.pdf.PdfReader
+import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import java.io.InputStream
 
 class FileParsingService(private val context: Context) {
-    // Simplified file parsing service - PDF and DOCX parsing temporarily disabled
     
     suspend fun parseFile(uri: Uri): Result<CVData> = withContext(Dispatchers.IO) {
         try {
@@ -18,15 +22,78 @@ class FileParsingService(private val context: Context) {
                 ?: return@withContext Result.failure(Exception("Cannot open file"))
             
             val mimeType = context.contentResolver.getType(uri)
+            val fileName = getFileName(uri)
+            
             val extractedText = when {
                 mimeType?.contains("text") == true -> parseText(inputStream)
-                else -> throw Exception("Unsupported file format - only text files supported currently")
+                mimeType?.contains("pdf") == true || fileName?.endsWith(".pdf", true) == true -> parsePDF(inputStream)
+                mimeType?.contains("wordprocessingml") == true || fileName?.endsWith(".docx", true) == true -> parseDOCX(inputStream)
+                mimeType?.contains("msword") == true || fileName?.endsWith(".doc", true) == true -> parseDOC(inputStream)
+                else -> throw Exception("Unsupported file format. Supported formats: PDF, DOC, DOCX, TXT")
             }
             
             val cvData = extractCVDataFromText(extractedText)
             Result.success(cvData)
         } catch (e: Exception) {
-            Result.failure(e)
+            Result.failure(Exception("Error parsing file: ${e.message}"))
+        }
+    }
+    
+    private fun getFileName(uri: Uri): String? {
+        return context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+            cursor.moveToFirst()
+            cursor.getString(nameIndex)
+        }
+    }
+    
+    private fun parsePDF(inputStream: InputStream): String {
+        return try {
+            val pdfReader = PdfReader(inputStream)
+            val pdfDocument = PdfDocument(pdfReader)
+            val text = StringBuilder()
+            
+            for (i in 1..pdfDocument.numberOfPages) {
+                text.append(PdfTextExtractor.extractText(pdfDocument.getPage(i)))
+                text.append("
+")
+            }
+            
+            pdfDocument.close()
+            text.toString()
+        } catch (e: Exception) {
+            throw Exception("Error reading PDF: ${e.message}")
+        }
+    }
+    
+    private fun parseDOCX(inputStream: InputStream): String {
+        return try {
+            val document = XWPFDocument(inputStream)
+            val text = StringBuilder()
+            
+            document.paragraphs.forEach { paragraph ->
+                text.append(paragraph.text)
+                text.append("
+")
+            }
+            
+            document.close()
+            text.toString()
+        } catch (e: Exception) {
+            throw Exception("Error reading DOCX: ${e.message}")
+        }
+    }
+    
+    private fun parseDOC(inputStream: InputStream): String {
+        return try {
+            val document = HWPFDocument(inputStream)
+            val extractor = WordExtractor(document)
+            val text = extractor.text
+            extractor.close()
+            document.close()
+            text
+        } catch (e: Exception) {
+            throw Exception("Error reading DOC: ${e.message}")
         }
     }
     

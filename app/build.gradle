@@ -75,13 +75,16 @@ dependencies {
     implementation 'com.google.accompanist:accompanist-pager-indicators:0.32.0'
     implementation 'com.airbnb.android:lottie-compose:6.1.0'
     
-    // File parsing - temporarily removed heavy dependencies
-    // implementation 'org.apache.poi:poi:5.2.4'
-    // implementation 'org.apache.poi:poi-ooxml:5.2.4'
-    // Removed problematic pdfbox-android dependency
+    // File parsing dependencies
+    implementation 'org.apache.poi:poi:5.2.4'
+    implementation 'org.apache.poi:poi-ooxml:5.2.4'
+    implementation 'org.apache.poi:poi-scratchpad:5.2.4'
     
-    // PDF viewing - temporarily removed problematic dependency
-    // implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    // PDF parsing - using iText for better Android compatibility
+    implementation 'com.itextpdf:itext7-core:7.2.5'
+    
+    // PDF viewing
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
     
     // Permissions
     implementation 'com.google.accompanist:accompanist-permissions:0.32.0'

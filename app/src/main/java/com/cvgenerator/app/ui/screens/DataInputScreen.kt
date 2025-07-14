@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cvgenerator.app.R
 import com.cvgenerator.app.data.CVData
@@ -72,6 +74,35 @@ fun DataInputScreen(
             )
         }
         
+        // Show error message if any
+        uiState.errorMessage?.let { error ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                )
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person, // You can use a warning icon
+                        contentDescription = "Error",
+                        tint = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = error,
+                        color = MaterialTheme.colorScheme.onErrorContainer,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+        
         if (uiState.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -80,9 +111,22 @@ fun DataInputScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(
+                        color = PrimaryBlue,
+                        strokeWidth = 4.dp
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text("Processing file...")
+                    Text(
+                        text = "Processing file...",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Please wait while we extract your CV data",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
         } else if (!showManualInput && cvData.personalInfo.fullName.isEmpty()) {
@@ -114,52 +158,57 @@ fun DataInputScreen(
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 20.dp),
-                    onClick = {
-                        filePickerLauncher.launch("*/*")
-                    },
+                        .padding(bottom = 16.dp),
                     elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
                     colors = CardDefaults.elevatedCardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    )
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    ),
+                    onClick = { filePickerLauncher.launch("*/*") }
                 ) {
                     Column(
-                        modifier = Modifier.padding(32.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(80.dp)
-                                .clip(RoundedCornerShape(20.dp))
+                                .size(64.dp)
+                                .clip(RoundedCornerShape(16.dp))
                                 .background(
-                                    Brush.radialGradient(
-                                        colors = listOf(
-                                            PrimaryBlue.copy(alpha = 0.2f),
-                                            SecondaryPurple.copy(alpha = 0.1f)
-                                        )
+                                    Brush.linearGradient(
+                                        colors = listOf(PrimaryBlue, SecondaryPurple)
                                     )
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                Icons.Default.Add,
-                                contentDescription = null,
-                                modifier = Modifier.size(40.dp),
-                                tint = PrimaryBlue
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Upload File",
+                                modifier = Modifier.size(32.dp),
+                                tint = Color.White
                             )
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = stringResource(R.string.upload_file),
+                            text = "Upload CV File",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = stringResource(R.string.supported_formats),
+                            text = "Supports PDF, DOC, DOCX, and TXT files",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "We'll automatically extract your information",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
@@ -187,28 +236,61 @@ fun DataInputScreen(
                     )
                 }
                 
-                // Manual Input Button with gradient
-                Button(
-                    onClick = { showManualInput = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary
-                    )
+                // Manual Input Button with modern design
+                ElevatedCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    ),
+                    onClick = { showManualInput = true }
                 ) {
-                    Icon(
-                        Icons.Default.Person,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.manual_input),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Medium
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(
+                                    Brush.linearGradient(
+                                        colors = listOf(AccentTeal, AccentGreen)
+                                    )
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = "Manual Input",
+                                modifier = Modifier.size(32.dp),
+                                tint = Color.White
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Enter Manually",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Fill in your details step by step",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Perfect for creating a new CV from scratch",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         } else {
@@ -473,20 +555,25 @@ private fun ModernTextField(
     label: String,
     modifier: Modifier = Modifier,
     minLines: Int = 1,
-    maxLines: Int = 1
+    maxLines: Int = Int.MAX_VALUE
 ) {
+    // Ensure maxLines is always >= minLines to prevent crash
+    val safeMaxLines = if (maxLines < minLines) minLines else maxLines
+    
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
         modifier = modifier.fillMaxWidth(),
         minLines = minLines,
-        maxLines = maxLines,
+        maxLines = safeMaxLines,
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = PrimaryBlue,
             focusedLabelColor = PrimaryBlue,
-            cursorColor = PrimaryBlue
+            cursorColor = PrimaryBlue,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
         )
     )
 }
